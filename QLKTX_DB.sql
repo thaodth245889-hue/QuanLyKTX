@@ -1,0 +1,86 @@
+﻿CREATE DATABASE QLKTX_DB;
+GO
+USE QLKTX_DB;
+GO
+
+CREATE TABLE TaiKhoan (
+    TenDangNhap VARCHAR(30) PRIMARY KEY,
+    MatKhau VARCHAR(50) NOT NULL,
+    HoTen NVARCHAR(100) NOT NULL,
+    Quyen NVARCHAR(20) NOT NULL CHECK (Quyen IN ('Admin', 'Staff'))
+);
+
+CREATE TABLE Khu (
+    MaKhu VARCHAR(10) PRIMARY KEY,
+    TenKhu NVARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Phong (
+    MaPhong VARCHAR(10) PRIMARY KEY,
+    TenPhong NVARCHAR(50) NOT NULL,
+    MaKhu VARCHAR(10) NOT NULL FOREIGN KEY REFERENCES Khu(MaKhu),
+    LoaiPhong NVARCHAR(10) NOT NULL CHECK (LoaiPhong IN (N'Nam', N'Nữ')),
+    SucChua INT NOT NULL DEFAULT 4 CHECK (SucChua IN (4, 6)),
+    GiaPhong DECIMAL(18, 0) NOT NULL DEFAULT 700000
+);
+
+CREATE TABLE SinhVien (
+    MSSV VARCHAR(15) PRIMARY KEY,
+    HoTen NVARCHAR(100) NOT NULL,
+    GioiTinh NVARCHAR(10) NOT NULL CHECK (GioiTinh IN (N'Nam', N'Nữ')),
+    NgaySinh DATE NOT NULL,
+    SDT VARCHAR(15),
+    QueQuan NVARCHAR(100)
+);
+
+CREATE TABLE DangKyPhong (
+    MaDangKy INT PRIMARY KEY IDENTITY(1,1),
+    MSSV VARCHAR(15) NOT NULL FOREIGN KEY REFERENCES SinhVien(MSSV),
+    MaPhong VARCHAR(10) NOT NULL FOREIGN KEY REFERENCES Phong(MaPhong),
+    NgayNhanPhong DATE NOT NULL DEFAULT GETDATE(),
+    NgayTra DATE NULL,
+    TrangThai NVARCHAR(20) NOT NULL DEFAULT N'Đang ở'
+);
+
+CREATE TABLE TienPhong (
+    MaTien INT PRIMARY KEY IDENTITY(1,1),
+    MaPhong VARCHAR(10) NOT NULL FOREIGN KEY REFERENCES Phong(MaPhong),
+    ThangNam VARCHAR(10) NOT NULL,
+    TuNgay DATE NOT NULL,
+    DenNgay DATE NOT NULL,
+    SoSV INT NOT NULL DEFAULT 0,
+    DonGiaPhong DECIMAL(18, 0) NOT NULL DEFAULT 700000,
+    TienPhong DECIMAL(18, 0) NOT NULL,
+    ChiSoDienCu INT NOT NULL DEFAULT 0,
+    ChiSoDienMoi INT NOT NULL DEFAULT 0,
+    TienDien DECIMAL(18, 0) NOT NULL DEFAULT 0,
+    ChiSoNuocCu INT NOT NULL DEFAULT 0,
+    ChiSoNuocMoi INT NOT NULL DEFAULT 0,
+    TienNuoc DECIMAL(18, 0) NOT NULL DEFAULT 0,
+    TongTien DECIMAL(18, 0) NOT NULL,
+    TrangThai NVARCHAR(20) NOT NULL DEFAULT N'Chưa đóng'
+);
+GO
+
+INSERT INTO TaiKhoan VALUES
+('admin', '123', N'Lý Kim Thảo', 'Admin'),
+('staff', '123', N'Nguyễn Huỳnh Anh Thư', 'Staff');
+
+INSERT INTO Khu VALUES
+('KA', N'Khu A - Nam'),
+('KB', N'Khu B - Nữ');
+
+INSERT INTO Phong VALUES
+('P101', N'Phòng 101', 'KA', N'Nam', 4, 700000),
+('P102', N'Phòng 102', 'KA', N'Nam', 6, 700000),
+('P201', N'Phòng 201', 'KB', N'Nữ', 4, 700000),
+('P202', N'Phòng 202', 'KB', N'Nữ', 6, 700000);
+
+INSERT INTO SinhVien VALUES
+('DTH245001', N'Nguyễn Văn An', N'Nam', '2006-05-12', '0912345678', N'An Giang'),
+('DTH245002', N'Trần Thị Bình', N'Nữ', '2006-08-20', '0987654321', N'Cần Thơ');
+
+INSERT INTO DangKyPhong (MSSV, MaPhong, NgayNhanPhong, TrangThai) VALUES
+('DTH245001', 'P101', '2026-09-01', N'Đang ở'),
+('DTH245002', 'P201', '2026-09-01', N'Đang ở');
+GO
