@@ -25,6 +25,7 @@ namespace QuanLyKTX.Forms
             LoadComboBoxes();
             LoadData();
             SetControlState(false);
+            UIHelper.LamDepFormQuanLy(this);
         }
         private void LoadComboBoxes()
         {

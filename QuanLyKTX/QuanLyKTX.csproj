@@ -99,6 +99,7 @@
     <Compile Include="Models\PhienDangNhap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UIHelper.cs" />
     <EmbeddedResource Include="Forms\frmDangKyPhong.resx">
       <DependentUpon>frmDangKyPhong.cs</DependentUpon>
     </EmbeddedResource>

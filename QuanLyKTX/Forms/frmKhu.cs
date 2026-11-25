@@ -24,6 +24,7 @@ namespace QuanLyKTX.Forms
         {
             LoadData();
             SetControlState(false);
+            UIHelper.LamDepFormQuanLy(this);
         }
         private void LoadData()
         {
